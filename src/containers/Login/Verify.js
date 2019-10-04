@@ -18,7 +18,7 @@ const Verify = () => {
       return;
     }
 
-    window.location.pathname = 'login';
+    window.location.href = '/login';
   }, []);
 
   return (
