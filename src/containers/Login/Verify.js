@@ -18,7 +18,14 @@ const Verify = () => {
       return;
     }
 
-    window.location.href = '/login';
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log('Verify', user);
+        window.location.href = `messages/${user.uid}`;
+      } else {
+        console.log('Sem usuário');
+      }
+    });
   }, []);
 
   return (
