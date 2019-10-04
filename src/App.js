@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/messages" exact={true} component={Messages}/>
+        <Route path="/messages/:uid" exact={true} component={Messages}/>
         <Route path="/login" exact={true} component={Login}/>
         <Route path="/verify" exact={true} component={Verify}/>
         <Route path="/chat" exact={true} component={Chat}/>
