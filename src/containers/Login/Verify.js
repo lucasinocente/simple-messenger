@@ -18,16 +18,8 @@ const Verify = () => {
       return;
     }
 
-    // const {
-    //   user: {
-
-    //   }
-    // } = signIn;
-
-    // window.location.pathname = `messages/${email}`;
-
-    console.log('Meu primeiro user', signIn);
-  });
+    window.location.pathname = 'login';
+  }, []);
 
   return (
     <div className="App">

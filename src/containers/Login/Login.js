@@ -18,7 +18,7 @@ const Login = () => {
       }
     });
 
-  });
+  }, []);
 
   const sendAuthLinkToEmail = async email => {
     const actionCodeSettings = {
