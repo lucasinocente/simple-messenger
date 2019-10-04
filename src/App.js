@@ -13,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/messages/:uid" exact={true} component={Messages}/>
+        <Route path="/" exact={true} component={Login}/>
         <Route path="/login" exact={true} component={Login}/>
         <Route path="/verify" exact={true} component={Verify}/>
         <Route path="/chat" exact={true} component={Chat}/>
