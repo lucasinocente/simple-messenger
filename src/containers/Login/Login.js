@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../firebase/Firebase';
+import Loader from '../../components/Loader';
 import "firebase/auth";
 
 import './Login.css';
@@ -7,6 +8,7 @@ import './Login.css';
 const Login = () => {
   const [email, setEmail] = useState();
   const [message, setMessage] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     try {
@@ -24,6 +26,8 @@ const Login = () => {
       url: 'http://localhost:3000/verify',
       handleCodeInApp: true
     };
+    setIsLoading(true);
+    setMessage('');
 
     try {
       await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
@@ -32,6 +36,8 @@ const Login = () => {
     } catch (err) {
       setMessage('Erro');
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -51,7 +57,7 @@ const Login = () => {
             type="button"
             onClick={() => sendAuthLinkToEmail(email)}
         >
-          Fazer login via e-mail
+          {isLoading ? <Loader /> : 'Fazer login via e-mail'}
         </button>
         <div className="error">{message}</div>
       </div>
