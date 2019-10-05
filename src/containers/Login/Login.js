@@ -49,7 +49,7 @@ const Login = () => {
         />
         <button
             type="button"
-            onClick={() => sendAuthLinkToEmail(email)}
+            onClick={ev => sendAuthLinkToEmail(ev, email)}
         >
           Fazer login via e-mail
         </button>
