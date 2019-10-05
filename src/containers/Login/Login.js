@@ -37,23 +37,25 @@ const Login = () => {
   }
 
   return (
-    <div className="App">
-      <section className="container row">
-        Login
-        <form>
-          <input
+    <div className="container">
+      <div className="login-container">
+        <h3>Simple Messenger</h3>
+        
+        <div className="welcome">Bem vindo ao Simple Messenger!</div>
+        <div className="welcome">Faça login com o seu e-mail abaixo:</div>
+        <input
             type="text"
             onChange={(event) => setEmail(event.target.value)}
-          />
-          <button
+            placeholder="E-mail"
+        />
+        <button
             type="button"
             onClick={() => sendAuthLinkToEmail(email)}
-          >
-            Autenticar
-          </button>
-        </form>
-        {message}
-      </section>
+        >
+          Fazer login via e-mail
+        </button>
+        <div className="error">{message}</div>
+      </div>
     </div>
   )
 }

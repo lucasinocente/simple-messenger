@@ -1,0 +1,71 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+
+    margin: 0px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.login-container{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    height: 60vh;
+    background-color: dodgerblue;
+    border-radius: 20px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container h3{
+    text-align: center;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.login-container .welcome{
+    text-align: center;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    margin: 10px 0px 10px 0px;
+    align-self: center;
+}
+.login-container input{
+    height: 50px;
+    width: 80%;
+    align-self: center;
+    margin: 10px 0px 10px 0px;
+    border-radius: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    color: dimgray;
+    padding: 10px;
+}
+.login-container button{
+    height: 50px;
+    width: 80%;
+    align-self: center;
+    margin: 10px 0px 10px 0px;
+    border-radius: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    color: dodgerblue;
+}
+
+.login-container .error{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    color: white;
+}
