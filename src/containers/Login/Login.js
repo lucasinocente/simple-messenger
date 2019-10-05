@@ -9,15 +9,13 @@ const Login = () => {
   const [message, setMessage] = useState();
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log('Usuário', user);
-        window.location.pathname = `messages/${user.uid}`;
-      } else {
-        console.log('Sem usuário');
-      }
-    });
-
+    try {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) window.location.pathname = `messages/${user.uid}`;
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   const sendAuthLinkToEmail = async (event, email) => {
