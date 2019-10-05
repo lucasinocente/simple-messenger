@@ -20,7 +20,8 @@ const Login = () => {
 
   }, []);
 
-  const sendAuthLinkToEmail = async email => {
+  const sendAuthLinkToEmail = async (event, email) => {
+    event.preventDefault();
     const actionCodeSettings = {
       url: 'http://localhost:3000/verify',
       handleCodeInApp: true
