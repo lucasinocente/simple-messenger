@@ -20,7 +20,8 @@ const Login = () => {
 
   }, []);
 
-  const sendAuthLinkToEmail = async email => {
+  const sendAuthLinkToEmail = async (event, email) => {
+    event.preventDefault();
     const actionCodeSettings = {
       url: 'http://localhost:3000/verify',
       handleCodeInApp: true
@@ -40,17 +41,12 @@ const Login = () => {
     <div className="App">
       <section className="container row">
         Login
-        <form>
+        <form onSubmit={(event) => sendAuthLinkToEmail(event, email)}>
           <input
             type="text"
             onChange={(event) => setEmail(event.target.value)}
           />
-          <button
-            type="button"
-            onClick={() => sendAuthLinkToEmail(email)}
-          >
-            Autenticar
-          </button>
+          <button type="submit" > Autenticar </button>
         </form>
         {message}
       </section>
