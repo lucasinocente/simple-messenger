@@ -9,11 +9,13 @@ body{
 
 .container{
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     width: 100%;
+}
+
+.container-home {
+    height: 100vh;      
 }
 
 .login-container{

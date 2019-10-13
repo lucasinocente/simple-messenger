@@ -42,7 +42,7 @@ const Login = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container container-home">
       <div className="login-container">
         <h3>Simple Messenger</h3>
         
