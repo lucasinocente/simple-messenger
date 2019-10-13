@@ -48,6 +48,8 @@ const getMessages = async (uid, setConversation) => {
   database.ref(`messages/${uid}`)
     .on('value', snapshot => {
       const messages = snapshot.val();
+      if( !messages ) return;
+
       let listMessages = [];
       Object.keys(messages).map(function(message) {
         listMessages.push(messages[message]);
