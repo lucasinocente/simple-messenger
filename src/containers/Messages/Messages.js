@@ -47,14 +47,13 @@ const getUser = async ({ uid, email }) => {
 const getMessages = async (uid, setConversation) => {
   database.ref(`messages/${uid}`)
     .on('value', snapshot => {
-      const messages = snapshot.val();
-      if( !messages ) return;
+      const data = snapshot.val();
+      if( !data ) return;
 
-      let listMessages = [];
-      Object.keys(messages).map(function(message) {
-        listMessages.push(messages[message]);
+      const messages = Object.keys(data).map(function(message) {
+        return data[message];
       });
-      setConversation(listMessages);
+      setConversation(messages);
     }
   );
 };
@@ -88,7 +87,7 @@ const Messages = () => {
             <div className="messages">
               {
                 conversation && conversation.map((item, key) =>
-                  <div className="message">
+                  <div className="message" key={key}>
                     {item.message}
                   </div>
                 )
