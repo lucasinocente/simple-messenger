@@ -65,14 +65,12 @@ const Messages = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
-      if (user) {
-        const { uid, email } = user;
-        setUid(uid);
-        getUser({ uid, email });
-        getMessages(uid, setConversation);
-      } else {
-        window.location.href = '/login';
-      }
+      if (!user) return window.location.href = '/login';
+
+      const { uid, email } = user;
+      setUid(uid);
+      getUser({ uid, email });
+      getMessages(uid, setConversation);
     });
   }, []);
 
