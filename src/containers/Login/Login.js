@@ -55,7 +55,7 @@ const Login = () => {
         />
         <button
             type="button"
-            onClick={() => sendAuthLinkToEmail(email)}
+            onClick={ev => sendAuthLinkToEmail(ev, email)}
         >
           {isLoading ? <Loader /> : 'Fazer login via e-mail'}
         </button>
