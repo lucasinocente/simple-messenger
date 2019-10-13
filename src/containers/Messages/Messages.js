@@ -4,6 +4,7 @@ import firebase from '../../firebase/Firebase';
 import './Messages.css';
 
 const database = firebase.firestore();
+const realTimeDatabase = firebase.database();
 
 const logout = async () => {
   try {
@@ -14,11 +15,8 @@ const logout = async () => {
   }
 };
 
-const addUser = async (user, database) => {
-  const returns = await database.collection("users").doc(user.uid).set({
-    uid: user.uid
-  });
-  console.log(returns);
+const addUser = async ({ uid, email }) => {
+  return realTimeDatabase.ref('users/' + uid).set({ uid, email });
 };
 
 const sendMessage = async (event, uid, message) => {
@@ -32,19 +30,16 @@ const sendMessage = async (event, uid, message) => {
   console.log(returns);
 };
 
-const getUser = async (uid) => {
-  const user = await database.collection("users").doc(uid);
-
-  user.get().then(async function(user) {
-    if (user.exists) {
-      console.log("Document data:", user.data());
-    } else {
-      await addUser(user, database);
-    }
-    return;
-  }).catch(function(error) {
-      console.log("Error getting document:", error);
-  });
+const getUser = async ({ uid, email }) => {
+  realTimeDatabase.ref('/users/' + uid)
+    .once('value')
+    .then(function(snapshot) {
+      if(snapshot.val()) {
+        console.log('user!', snapshot.val())
+      } else {
+        addUser({ uid, email });
+      }
+    });
 };
 
 const getMessages = async (uid, setConversation) => {
@@ -77,9 +72,9 @@ const Messages = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
       if (user) {
-        const { uid } = user;
+        const { uid, email } = user;
         setUid(uid);
-        getUser(uid);
+        getUser({ uid, email });
         getMessages(uid, setConversation);
       } else {
         window.location.href = '/login';
