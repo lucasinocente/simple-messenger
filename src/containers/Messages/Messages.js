@@ -47,14 +47,19 @@ const getUser = async ({ uid, email }) => {
 const getMessages = async (uid, setConversation) => {
   database.ref(`messages/${uid}`)
     .on('value', snapshot => {
-      console.log(snapshot.val());
+      const messages = snapshot.val();
+      let listMessages = [];
+      Object.keys(messages).map(function(message) {
+        listMessages.push(messages[message]);
+      });
+      setConversation(listMessages);
     }
   );
 };
 
 const Messages = () => {
-  const [conversation, setConversation] = useState();
   const [message, setMessage] = useState();
+  const [conversation, setConversation] = useState();
   const [uid, setUid] = useState();
 
   useEffect(() => {
@@ -79,18 +84,18 @@ const Messages = () => {
         <div className="container row ">
           <div className="column column-messages">
             <div className="messages">
-              <div className="message message-received">
-                Olá!
-              </div>
-              <div className="message message-send">
-                Oi, como vai você?
-              </div>
+              {
+                conversation && conversation.map((item, key) =>
+                  <div className="message">
+                    {item.message}
+                  </div>
+                )
+              }
             </div>
-            { conversation }
             <div className="form">
-              <form>
+              <form onSubmit={(e) => sendMessage(e, uid, message)}>
                 <input type="text" onChange={(e) => setMessage(e.target.value)}></input>
-                <button type="button" onClick={(e) => sendMessage(e, uid, message)}>Send</button>
+                <button type="submit">Send</button>
               </form>
             </div>
           </div>
