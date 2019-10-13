@@ -21,13 +21,16 @@ const addUser = async ({ uid, email }) => {
 
 const sendMessage = async (event, uid, message) => {
   event.preventDefault();
-  const returns = await database.collection("messages").add({
+
+  const messages = 
+    realTimeDatabase.ref().child(`messages/${uid}`).push();
+
+  return messages.set({
     room: uid,
-    uid,
+    sender: uid,
     message,
     timestamp: Date.now()
   });
-  console.log(returns);
 };
 
 const getUser = async ({ uid, email }) => {
@@ -43,25 +46,11 @@ const getUser = async ({ uid, email }) => {
 };
 
 const getMessages = async (uid, setConversation) => {
-  try {
-    const messages = database.collection("messages").where("room", "==", uid);
-
-    messages.get().then(function(snapshot) {
-
-    //  const messages = [];
-      snapshot.forEach(function(snap) {
-        console.log(snap.id, " => ", snap.data());
-        const { message, uid } = snap.data();
-      });
-
-     // setConversation(messages);
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-  } catch (error) {
-    console.log("Error cathing document:", error);
-  }
-
+  realTimeDatabase.ref(`messages/${uid}`)
+    .on('value', snapshot => {
+      console.log(snapshot.val());
+    }
+  );
 };
 
 const Messages = () => {
