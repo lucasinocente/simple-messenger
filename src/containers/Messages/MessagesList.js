@@ -1,10 +1,11 @@
-import React from 'react';
-import './Messages.css';
-
+import React, { useEffect, useState  } from 'react';
 import firebase from '../../firebase/Firebase';
 
+import './Messages.css';
+
+const database = firebase.database();
+
 const logout = async () => {
-  console.log('funcionou');
   try {
     await firebase.auth().signOut();
     window.location.href = '/login';
@@ -13,32 +14,53 @@ const logout = async () => {
   }
 };
 
+const getContacts = async (setContacts) => {
+  database.ref(`users/`)
+    .on('value', snapshot => {
+      const data = snapshot.val();
+      if( !data ) return;
+      
+      const contacts = Object.keys(data).map(function(message) {
+        return data[message];
+      });
+
+      return setContacts(contacts);
+    }
+  );
+};
+
 const Messages = () => {
+  const [contacts, setContacts] = useState();
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(async function(user) {
+      if (!user) return window.location.href = '/login';
+      return getContacts(setContacts);
+    });
+  }, []);
+
   return (
-    <div className="contacts-list">
-      <ul className="contacts">
-        <li>
-          <a className="contact">
-            <div className="avatar">
-              <img src="https://api.adorable.io/avatars/60/olucassanchez@gmail.com"></img>
+    <div className="App">
+      <section className="container-messages">
+        <header>
+          <button type="button" onClick={logout}>Logout</button>
+        </header>
+        <div className="container row">
+          <div className="column column-messages">
+            <div className="contacts">
+              {
+                contacts && contacts.map(({ uid, email }, key) =>
+                  <div className="message">
+                    <a href={`/messages/${uid}`} className="message" key={key}>
+                      {email}
+                    </a>
+                  </div>
+                )
+              }
             </div>
-            <div className="email">
-              <div className="name">olucassanchez</div>
-              <div className="provider">@gmail.com</div>
-            </div>
-          </a>
-        </li>
-        
-        <li className="contact">
-          <div className="avatar">
-            <img src="https://api.adorable.io/avatars/60/guerrinha@comum.org"></img>
           </div>
-          <div className="email">
-            <div className="name">guerrinha</div>
-            <div className="provider">@comum.org</div>
-          </div>
-        </li>
-      </ul>
+        </div>
+      </section>
     </div>
   );
 }
