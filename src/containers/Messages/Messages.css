@@ -1,0 +1,23 @@
+.container-messages {
+    background: white;
+    max-width: 800px;
+    height: 90vh;
+    margin: 5vh auto;
+}
+
+.contact {
+    display: flex;
+    background: white;
+}
+
+.email {
+    padding: 6px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.avatar {
+    padding: 6px;
+}
