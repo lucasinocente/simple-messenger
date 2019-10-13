@@ -3,8 +3,7 @@ import firebase from '../../firebase/Firebase';
 
 import './Messages.css';
 
-const database = firebase.firestore();
-const realTimeDatabase = firebase.database();
+const database = firebase.database();
 
 const logout = async () => {
   try {
@@ -16,14 +15,14 @@ const logout = async () => {
 };
 
 const addUser = async ({ uid, email }) => {
-  return realTimeDatabase.ref('users/' + uid).set({ uid, email });
+  return database.ref('users/' + uid).set({ uid, email });
 };
 
 const sendMessage = async (event, uid, message) => {
   event.preventDefault();
 
   const messages = 
-    realTimeDatabase.ref().child(`messages/${uid}`).push();
+    database.ref().child(`messages/${uid}`).push();
 
   return messages.set({
     room: uid,
@@ -34,7 +33,7 @@ const sendMessage = async (event, uid, message) => {
 };
 
 const getUser = async ({ uid, email }) => {
-  realTimeDatabase.ref('/users/' + uid)
+  database.ref('/users/' + uid)
     .once('value')
     .then(function(snapshot) {
       if(snapshot.val()) {
@@ -46,7 +45,7 @@ const getUser = async ({ uid, email }) => {
 };
 
 const getMessages = async (uid, setConversation) => {
-  realTimeDatabase.ref(`messages/${uid}`)
+  database.ref(`messages/${uid}`)
     .on('value', snapshot => {
       console.log(snapshot.val());
     }
