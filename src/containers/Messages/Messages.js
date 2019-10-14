@@ -33,7 +33,7 @@ const sendMessage = async (event, uid, room, message) => {
   });
 };
 
-const getUser = async ({ uid, email, setEmail }) => {
+const getUser = async ({ uid, email }) => {
   database.ref('/users/' + uid)
     .once('value')
     .then(function(snapshot) {
@@ -68,7 +68,7 @@ const Messages = () => {
       const roomOwner = user.uid === room;
       if(!user) return window.location.href = '/login';
       if(!admin && !roomOwner) return window.location.href = '/login';
-
+      getUser(user);
       setUser(user);
       getMessages(room, setConversation);
     });
