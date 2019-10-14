@@ -58,17 +58,13 @@ const getMessages = async (room, setConversation) => {
 const Messages = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
-  const [uid, setUid] = useState();
-  const [email, setEmail] = useState();
+  const [user, setUser] = useState({});
   const room = window.location.pathname.split('/')[2];
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
       if (!user) return window.location.href = '/login';
-      const { uid, email } = user;
-      setEmail(email);
-      setUid(uid);
-      getUser({ uid, email, setEmail });
+      setUser(user);
       getMessages(room, setConversation);
     });
   }, []);
@@ -77,7 +73,7 @@ const Messages = () => {
     <div className="App">
       <section className="container-messages">
         <header>
-          Olá { email } <button type="button" onClick={logout}>Logout</button>
+          Olá { user.email } <button type="button" onClick={logout}>Logout</button>
         </header>
         <div className="container row ">
           <div className="column column-messages">
@@ -91,7 +87,7 @@ const Messages = () => {
               }
             </div>
             <div className="form">
-              <form onSubmit={(e) => sendMessage(e, uid, room, message)}>
+              <form onSubmit={(e) => sendMessage(e, user.uid, room, message)}>
                 <input type="text" onChange={(e) => setMessage(e.target.value)}></input>
                 <button type="submit">Send</button>
               </form>
