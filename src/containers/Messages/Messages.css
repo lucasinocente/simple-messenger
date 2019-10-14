@@ -1,8 +1,8 @@
 .container-messages {
     background: white;
     max-width: 800px;
-    height: 90vh;
-    margin: 5vh auto;
+    height: 85vh;
+    overflow: auto;
 }
 
 .contact {
@@ -10,14 +10,10 @@
     background: white;
 }
 
-.email {
-    padding: 6px;
+.message.received {
+    text-align: left;
 }
 
-.name {
-    font-weight: bold;
-}
-
-.avatar {
-    padding: 6px;
+.message.send {
+    text-align: right;
 }

@@ -71,30 +71,35 @@ const Messages = () => {
 
   return (
     <div className="App">
+      <header>
+        Olá { user.email } <button type="button" onClick={logout}>Logout</button>
+      </header>
       <section className="container-messages">
-        <header>
-          Olá { user.email } <button type="button" onClick={logout}>Logout</button>
-        </header>
-        <div className="container row ">
+        <div className="container row">
           <div className="column column-messages">
             <div className="messages">
               {
                 conversation && conversation.map((item, key) =>
-                  <div className="message" key={key}>
-                    {item.message}
+                  <div 
+                    className={`message ${item.sender === user.uid ? 'send' : 'received'}`}
+                    key={key}
+                  >
+                    <span className="inner">
+                      {item.message}
+                    </span>
                   </div>
                 )
               }
             </div>
-            <div className="form">
-              <form onSubmit={(e) => sendMessage(e, user.uid, room, message)}>
-                <input type="text" onChange={(e) => setMessage(e.target.value)}></input>
-                <button type="submit">Send</button>
-              </form>
-            </div>
           </div>
         </div>
       </section>
+      <div className="form">
+        <form onSubmit={(e) => sendMessage(e, user.uid, room, message)}>
+          <input type="text" onChange={(e) => setMessage(e.target.value)}></input>
+          <button type="submit">Send</button>
+        </form>
+      </div>
     </div>
   );
 }
