@@ -1,5 +1,6 @@
 import React, { useEffect, useState  } from 'react';
 import firebase from '../../firebase/Firebase';
+import { isAdmin } from '../../firebase/helpers';
 
 import './Messages.css';
 
@@ -34,7 +35,10 @@ const Messages = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
-      if (!user) return window.location.href = '/login';
+      const admin = await isAdmin(firebase);
+      if (!user || !admin)
+        return window.location.href = '/login';
+
       return getContacts(setContacts);
     });
   }, []);
