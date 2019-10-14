@@ -18,15 +18,15 @@ const addUser = async ({ uid, email }) => {
   return database.ref('users/' + uid).set({ uid, email });
 };
 
-const sendMessage = async (event, uid, message) => {
+const sendMessage = async (event, uid, room, message) => {
   event.preventDefault();
 
   const messages = 
-    database.ref().child(`messages/${uid}`).push();
+    database.ref().child(`messages/${room}`).push();
 
   return messages.set({
-    room: uid,
     sender: uid,
+    room,
     message,
     timestamp: Date.now()
   });
@@ -44,8 +44,8 @@ const getUser = async ({ uid, email }) => {
     });
 };
 
-const getMessages = async (uid, setConversation) => {
-  database.ref(`messages/${uid}`)
+const getMessages = async (room, setConversation) => {
+  database.ref(`messages/${room}`)
     .on('value', snapshot => {
       const data = snapshot.val();
       if( !data ) return;
@@ -62,6 +62,7 @@ const Messages = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
   const [uid, setUid] = useState();
+  const room = window.location.pathname.split('/')[2];
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
@@ -70,7 +71,7 @@ const Messages = () => {
       const { uid, email } = user;
       setUid(uid);
       getUser({ uid, email });
-      getMessages(uid, setConversation);
+      getMessages(room, setConversation);
     });
   }, []);
 
@@ -92,7 +93,7 @@ const Messages = () => {
               }
             </div>
             <div className="form">
-              <form onSubmit={(e) => sendMessage(e, uid, message)}>
+              <form onSubmit={(e) => sendMessage(e, uid, room, message)}>
                 <input type="text" onChange={(e) => setMessage(e.target.value)}></input>
                 <button type="submit">Send</button>
               </form>
