@@ -35,9 +35,10 @@ const Messages = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
+      if(!user) return window.location.href = '/login';
+
       const admin = await isAdmin(firebase);
-      if (!user || !admin)
-        return window.location.href = '/login';
+      if (!admin) return window.location.href = '/login';
 
       return getContacts(setContacts);
     });
