@@ -1,5 +1,6 @@
 import React, { useEffect, useState  } from 'react';
 import firebase from '../../firebase/Firebase';
+import { isAdmin } from '../../firebase/helpers';
 
 import './Messages.css';
 
@@ -63,7 +64,11 @@ const Messages = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
-      if (!user) return window.location.href = '/login';
+      const admin = await isAdmin(firebase);
+      const roomOwner = user.uid === room;
+      if(!user) return window.location.href = '/login';
+      if(!admin && !roomOwner) return window.location.href = '/login';
+
       setUser(user);
       getMessages(room, setConversation);
     });
