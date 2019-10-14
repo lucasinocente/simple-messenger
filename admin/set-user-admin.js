@@ -11,7 +11,7 @@ admin.initializeApp({
 admin.auth().getUserByEmail('your-email-here@something.com').then(async (user) => {
   console.log('Verificando', user.email);
 
-  if(user.customClaims.admin) {
+  if(user.customClaims && user.customClaims.admin) {
     console.log('Usuário já é admin!');
     process.exit();
   }

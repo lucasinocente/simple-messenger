@@ -3,6 +3,7 @@
     max-width: 800px;
     height: 85vh;
     overflow: auto;
+    margin: 0 auto;
 }
 
 .contact {
