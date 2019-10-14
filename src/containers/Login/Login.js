@@ -45,20 +45,16 @@ const Login = () => {
     <div className="container container-home">
       <div className="login-container">
         <h3>Simple Messenger</h3>
-        
         <div className="welcome">Bem vindo ao Simple Messenger!</div>
-        <div className="welcome">Faça login com o seu e-mail abaixo:</div>
-        <input
-            type="text"
+        <form className="welcome" onSubmit={ev => sendAuthLinkToEmail(ev, email)}>
+          <label>Faça login com o seu e-mail abaixo:</label>
+          <input
+            type="email"
             onChange={(event) => setEmail(event.target.value)}
             placeholder="E-mail"
-        />
-        <button
-            type="button"
-            onClick={ev => sendAuthLinkToEmail(ev, email)}
-        >
-          {isLoading ? <Loader /> : 'Fazer login via e-mail'}
-        </button>
+          />
+          <button type="submit">{isLoading ? <Loader /> : 'Fazer login via e-mail'}</button>
+        </form>
         <div className="error">{message}</div>
       </div>
     </div>
