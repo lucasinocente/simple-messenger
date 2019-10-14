@@ -32,15 +32,12 @@ const sendMessage = async (event, uid, room, message) => {
   });
 };
 
-const getUser = async ({ uid, email }) => {
+const getUser = async ({ uid, email, setEmail }) => {
   database.ref('/users/' + uid)
     .once('value')
     .then(function(snapshot) {
-      if(snapshot.val()) {
-        console.log('user!', snapshot.val())
-      } else {
-        addUser({ uid, email });
-      }
+      const user = snapshot.val();
+      if (!user) return addUser({ uid, email });
     });
 };
 
@@ -62,15 +59,16 @@ const Messages = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
   const [uid, setUid] = useState();
+  const [email, setEmail] = useState();
   const room = window.location.pathname.split('/')[2];
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
       if (!user) return window.location.href = '/login';
-
       const { uid, email } = user;
+      setEmail(email);
       setUid(uid);
-      getUser({ uid, email });
+      getUser({ uid, email, setEmail });
       getMessages(room, setConversation);
     });
   }, []);
@@ -79,7 +77,7 @@ const Messages = () => {
     <div className="App">
       <section className="container-messages">
         <header>
-          <button type="button" onClick={logout}>Logout</button>
+          Olá { email } <button type="button" onClick={logout}>Logout</button>
         </header>
         <div className="container row ">
           <div className="column column-messages">
