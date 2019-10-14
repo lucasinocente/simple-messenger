@@ -41,6 +41,12 @@ const Login = () => {
     }
   }
 
+  const handleKeyPress = (ev, sendAuthLinkToEmail) => {
+    if (ev.key === "Enter") {
+      sendAuthLinkToEmail(ev, email)
+    }
+  }
+
   return (
     <div className="container container-home">
       <div className="login-container">
@@ -52,6 +58,7 @@ const Login = () => {
             type="text"
             onChange={(event) => setEmail(event.target.value)}
             placeholder="E-mail"
+            onKeyPress={ev => handleKeyPress(ev, sendAuthLinkToEmail)}
         />
         <button
             type="button"
