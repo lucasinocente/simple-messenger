@@ -23,11 +23,19 @@ body {
   flex: 3;
 }
 
-.messages, .message,
+.message .inner,
 .contacts, .contact {
   margin: 5px;
   border: 1px solid #ccc;
   padding: 5px;
+}
+
+.messages {
+  padding: 20px;
+}
+
+.message .inner {
+  display: inline-block;
 }
 
 .contact.selected {
