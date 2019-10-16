@@ -19,20 +19,6 @@ const addUser = async ({ uid, email }) => {
   return database.ref('users/' + uid).set({ uid, email });
 };
 
-const sendMessage = async (event, uid, room, message) => {
-  event.preventDefault();
-
-  const messages = 
-    database.ref().child(`messages/${room}`).push();
-
-  return messages.set({
-    sender: uid,
-    room,
-    message,
-    timestamp: Date.now()
-  });
-};
-
 const getUser = async ({ uid, email }) => {
   database.ref('/users/' + uid)
     .once('value')
@@ -61,6 +47,22 @@ const Messages = () => {
   const [conversation, setConversation] = useState();
   const [user, setUser] = useState({});
   const room = window.location.pathname.split('/')[2];
+
+  const sendMessage = async (event, uid, room, message) => {
+    event.preventDefault();
+  
+    const messages = 
+      database.ref().child(`messages/${room}`).push();
+  
+    messages.set({
+      sender: uid,
+      room,
+      message,
+      timestamp: Date.now()
+    });
+
+    setMessage('')
+  };
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
@@ -103,7 +105,7 @@ const Messages = () => {
       </section>
       <div className="form">
         <form onSubmit={(e) => sendMessage(e, user.uid, room, message)}>
-          <input type="text" onChange={(e) => setMessage(e.target.value)}></input>
+          <input type="text" value={message} onChange={(e) => setMessage(e.target.value)}></input>
           <button type="submit">Send</button>
         </form>
       </div>
