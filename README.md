@@ -15,7 +15,13 @@ npm install
 
 2. Create a Firebase Project (https://firebase.google.com)
 
-3. Setup environment variables
+3. Create a Auth Method at `Authentication > Sign-in method > Email/Password`
+
+4. Enable first option and `e-mail link` too.
+
+5. Create a Realtime Database Project
+
+6. Setup environment variables
 - Copy and rename `.env.example` to `.env.local`
 - Replace `.env.local` content with your configuration
 
@@ -28,7 +34,20 @@ REACT_APP_PROJECT_ID=your-app
 
 To discovery your key, at Firebase console go to `Settings > Project Settings`.
 
-4. Run the project
+7. Change your Database rule at `Database > rules` to:
+```
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+```
+CAUTION! THIS WILL OPEN YOUR DATABASE! KEEP YOUR KEY SAFE!
+
+Visit https://firebase.google.com/docs/database/security to learn more about security rules.
+
+8. Run the project
 
 ```
 npm start
