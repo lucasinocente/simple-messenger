@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../firebase/Firebase';
 import "firebase/auth";
+import { isAdmin } from '../../firebase/helpers';
 
 import './Login.css';
 
@@ -17,11 +18,18 @@ const Verify = () => {
       return;
     }
 
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        console.log('Verify', user);
+    firebase.auth().onAuthStateChanged(async function(user) {
+      if (!user) { return; }
+      console.log('Verify', user);
+      
+      const admin = await isAdmin(firebase);
+
+      if (admin) {
         setStatus('Direcionando para mensagens...');
-        window.location.href = `messages/${user.uid}`;
+        window.location.href = `messages`;
+      } else {
+        setStatus('Direcionando para mensagens...');
+          window.location.href = `messages/${user.uid}`;
       }
     });
   }, []);
