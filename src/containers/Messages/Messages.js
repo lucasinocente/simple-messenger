@@ -1,5 +1,5 @@
 import React, { useEffect, useState  } from 'react';
-import firebase from '../../firebase/Firebase';
+import firebase, { messaging } from '../../firebase/Firebase';
 import { isAdmin } from '../../firebase/helpers';
 
 import './Messages.css';
@@ -17,6 +17,10 @@ const logout = async () => {
 
 const addUser = async ({ uid, email }) => {
   return database.ref('users/' + uid).set({ uid, email });
+};
+
+const addUserToken = async ({ uid, token }) => {
+  return database.ref('users/' + uid).update({ token });
 };
 
 const getUser = async ({ uid, email }) => {
@@ -75,8 +79,20 @@ const Messages = () => {
       getUser(user);
       setUser(user);
       getMessages(room, setConversation);
+
+      messaging.requestPermission()
+        .then(async function() {
+          const token = await messaging.getToken();
+          addUserToken({ uid: user.uid, token });
+        })
+        .catch(function (err) {
+          // TODO: Implment toaster
+          console.log("Unable to get permission to notify.", err);
+        });
+      // TODO: Implement toaster
+      // navigator.serviceWorker.addEventListener("message", (message) => console.log(message))
     });
-  }, []);
+  }, [room]);
 
   return (
     <div className="App">
