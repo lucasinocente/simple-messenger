@@ -1,6 +1,6 @@
 import React, { useEffect, useState  } from 'react';
 import firebase, { messaging } from '../../firebase/Firebase';
-import { isAdmin } from '../../firebase/helpers';
+import { checkIsAdmin } from '../../firebase/helpers';
 
 import './Messages.css';
 
@@ -34,15 +34,22 @@ const getContacts = async (setContacts) => {
   );
 };
 
-const Messages = () => {
+const addAdminToConversation = async (history, user, room) => {
+  await database.ref(`messages/${room}`).update({ admin: user.uid });
+  history.push(`/messages/${room}`);
+};
+
+const Messages = ({ history }) => {
   const [contacts, setContacts] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
       if(!user) return window.location.href = '/login';
 
-      const admin = await isAdmin(firebase);
+      const admin = await checkIsAdmin(firebase);
       if (!admin) return window.location.href = '/login';
+      setUser(user);
 
       messaging.requestPermission()
         .then(async function() {
@@ -72,7 +79,7 @@ const Messages = () => {
               {
                 contacts && contacts.map(({ uid, email }, key) =>
                   <div className="message" key={key}>
-                    <a href={`/messages/${uid}`} className="message">
+                    <a href="#" onClick={() => addAdminToConversation(history, user, uid)} className="message">
                       {email}
                     </a>
                   </div>

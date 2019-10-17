@@ -6,7 +6,8 @@ admin.initializeApp(functions.config().firebase);
 exports.sendNotification = functions.database.ref('/messages/{roomId}/{messageId}').onCreate((eventSnapshot, context) => {
   const roomId = context.params.roomId;
   const messageId = context.params.messageId;
-  const senderUid = eventSnapshot.val().sender;
+  const senderId = eventSnapshot.val().sender;
+  const receiverId = eventSnapshot.val().receiver;
   
   if (!eventSnapshot.val()) {
     return;
@@ -14,7 +15,7 @@ exports.sendNotification = functions.database.ref('/messages/{roomId}/{messageId
 
   const getDeviceTokensPromise = admin
     .database()
-    .ref(`/users/${roomId}/token`)
+    .ref(`/users/${receiverId}/token`)
     .once('value');
 
   return getDeviceTokensPromise.then(results => {
