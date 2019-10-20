@@ -2,7 +2,7 @@ import React, { useEffect, useState  } from 'react';
 import firebase from '../../firebase/Firebase';
 import { isAdmin } from '../../firebase/helpers';
 
-import './Contacts.css';
+import './ContactsList.css';
 
 const database = firebase.database();
 
@@ -51,7 +51,7 @@ const Messages = () => {
           <button type="button" onClick={logout}>Logout</button>
         </header>
         <div className="container row">
-          <div className="column column-messages">
+          <div className="column contacts_list__column">
             <div className="contacts">
               {
                 contacts && contacts.map(({ uid, email }, key) =>

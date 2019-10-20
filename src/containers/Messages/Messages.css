@@ -13,3 +13,23 @@
 .message.send {
     text-align: right;
 }
+
+.messages {
+    padding: 20px;
+}
+  
+.message .inner {
+    display: inline-block;
+}
+  
+.message-received {
+    text-align: left;
+}
+
+.message-send {
+    text-align: right;
+}
+
+.column-messages {
+    flex: 3;
+  }

@@ -5,3 +5,11 @@
     overflow: auto;
     margin: 0 auto;
 }
+
+.contacts_list__column {
+    flex: 1;
+}
+
+.contact.selected {
+    background: palevioletred;
+  }
