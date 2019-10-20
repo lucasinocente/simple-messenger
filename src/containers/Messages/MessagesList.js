@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from "react";
-import firebase from "../../firebase/Firebase";
-import { isAdmin } from "../../firebase/helpers";
+import React, { useEffect, useState } from 'react';
+import firebase from '../../firebase/Firebase';
+import { isAdmin } from '../../firebase/helpers';
 
-import "./Messages.css";
+import './Messages.css';
 
 const database = firebase.database();
 
 const logout = async () => {
   try {
     await firebase.auth().signOut();
-    window.location.href = "/login";
+    window.location.href = '/login';
   } catch (error) {
-    console.log("error logout", error);
+    console.log('error logout', error);
   }
 };
 
-const getContacts = async setContacts => {
-  database.ref(`users/`).on("value", snapshot => {
-    const data = snapshot.val();
-    if (!data) return;
+const getContacts = async (setContacts) => {
+  database.ref(`users/`)
+    .on("value", snapshot => {
+			const data = snapshot.val();
+			if (!data) return;
 
-    const contacts = Object.keys(data)
-      .map(function(message) {
-        return data[message];
-      })
-      .filter(function(contact) {
-        return contact.email !== firebase.auth().currentUser.email;
-      });
+			const contacts = Object.keys(data)
+			.map(function(message) {
+				return data[message];
+			})
+			.filter(function(contact) {
+				return contact.email !== firebase.auth().currentUser.email;
+			});
 
-    return setContacts(contacts);
-  });
+			return setContacts(contacts);
+    });
 };
 
 const Messages = () => {
