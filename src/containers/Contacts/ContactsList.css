@@ -1,0 +1,15 @@
+.container-messages {
+    background: white;
+    max-width: 800px;
+    height: 85vh;
+    overflow: auto;
+    margin: 0 auto;
+}
+
+.contacts_list__column {
+    flex: 1;
+}
+
+.contact.selected {
+    background: palevioletred;
+  }
