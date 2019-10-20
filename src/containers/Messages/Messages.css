@@ -6,11 +6,6 @@
     margin: 0 auto;
 }
 
-.contact {
-    display: flex;
-    background: white;
-}
-
 .message.received {
     text-align: left;
 }

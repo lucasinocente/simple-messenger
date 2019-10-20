@@ -55,7 +55,7 @@ const Messages = () => {
             <div className="contacts">
               {
                 contacts && contacts.map(({ uid, email }, key) =>
-                  <div className="message">
+                  <div>
                     <a href={`/messages/${uid}`} className="message" key={key}>
                       {email}
                     </a>
