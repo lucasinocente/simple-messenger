@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../firebase/Firebase';
 import "firebase/auth";
-import { isAdmin } from '../../firebase/helpers';
+import { checkIsAdmin } from '../../firebase/helpers';
 
 import './Login.css';
 
@@ -22,7 +22,7 @@ const Verify = () => {
       if (!user) { return; }
       console.log('Verify', user);
       
-      const admin = await isAdmin(firebase);
+      const admin = await checkIsAdmin(firebase);
 
       if (admin) {
         setStatus('Direcionando para mensagens...');
