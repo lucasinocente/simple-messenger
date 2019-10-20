@@ -30,11 +30,16 @@ REACT_APP_API_KEY=your-web-api-key
 REACT_APP_AUTH_DOMAIN=your-app.firebaseapp.com
 REACT_APP_DATABASE_URL=https://your-app.firebaseio.com
 REACT_APP_PROJECT_ID=your-app
+REACT_APP_MESSEAGING_SENDER_ID=your-sender-id
+REACT_APP_WEB_PUSH_CERTIFICATES=your-web-push-certificates
+REACT_APP_APP_ID=-your-app-id
 ```
 
 To discovery your key, at Firebase console go to `Settings > Project Settings`.
 
-7. Change your Database rule at `Database > rules` to:
+7. Change your sender id in `firebase-messaging-sw.js` and `manifest.json`.
+
+8. Change your Database rule at `Database > rules` to:
 ```
 {
   "rules": {
@@ -47,7 +52,7 @@ CAUTION! THIS WILL OPEN YOUR DATABASE! KEEP YOUR KEY SAFE!
 
 Visit https://firebase.google.com/docs/database/security to learn more about security rules.
 
-8. Run the project
+9. Run the project
 
 ```
 npm start
@@ -76,6 +81,19 @@ node set-user-admin.js;
 ```
 
 Okay, your user now is admin and can see a list of contacts.
+
+## Deploy firebase cloud functions
+
+1. Go to `functions` and install dependencies
+
+```
+cd functions
+npm install
+```
+
+2. Deploy functions by running `npm run deploy`
+
+And you all set to go, notifications will be sent if browser is in background and messages exchange from user and admin.
 
 ## Contributing
 
