@@ -1,4 +1,4 @@
-export const isAdmin = (firebase) => {
+export const checkIsAdmin = (firebase) => {
   return firebase.auth().currentUser.getIdTokenResult()
     .then((idTokenResult) => {
       if (idTokenResult.claims.admin) {

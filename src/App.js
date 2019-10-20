@@ -1,12 +1,12 @@
 import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import './App.css';
+
 import Messages from './containers/Messages/Messages';
 import ContactsList from './containers/Contacts/ContactsList';
 import Login from './containers/Login/Login';
 import Verify from './containers/Login/Verify';
-
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
-import './App.css';
+import NotFound from './NotFound/NotFound';
   
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
         <Route path="/verify" exact={true} component={Verify}/>
         <Route path="/contacts" exact={true} component={ContactsList}/>
         <Route path="/messages/:uid" exact={true} component={Messages}/>
+        <Route path="**" component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

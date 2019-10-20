@@ -1,6 +1,6 @@
 import React, { useEffect, useState  } from 'react';
-import firebase from '../../firebase/Firebase';
-import { isAdmin } from '../../firebase/helpers';
+import firebase, { messaging } from '../../firebase/Firebase';
+import { checkIsAdmin } from '../../firebase/helpers';
 
 import './Messages.css';
 
@@ -19,6 +19,10 @@ const addUser = async ({ uid, email }) => {
   return database.ref('users/' + uid).set({ uid, email });
 };
 
+const addUserToken = async ({ uid, token }) => {
+  return database.ref('users/' + uid).update({ token });
+};
+
 const getUser = async ({ uid, email }) => {
   database.ref('/users/' + uid)
     .once('value')
@@ -28,15 +32,19 @@ const getUser = async ({ uid, email }) => {
     });
 };
 
-const getMessages = async (room, setConversation) => {
+const getMessages = async (room, setConversation, setAdminId) => {
   database.ref(`messages/${room}`)
     .on('value', snapshot => {
       const data = snapshot.val();
       if( !data ) return;
 
-      const messages = Object.keys(data).map(function(message) {
+      const messages = Object.keys(data).map(function (message) {
+        if (message === 'admin') {
+          setAdminId(data[message])
+          return false;
+        }
         return data[message];
-      });
+      }).filter(item => !!item);
       setConversation(messages);
     }
   );
@@ -46,9 +54,11 @@ const Messages = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
   const [user, setUser] = useState({});
+  const [isAdmin, setIsAdmin] = useState()
+  const [adminId, setAdminId] = useState()
   const room = window.location.pathname.split('/')[2];
 
-  const sendMessage = async (event, uid, room, message) => {
+  const sendMessage = async (event, uid, room, message, adminId, isAdmin) => {
     event.preventDefault();
   
     const messages = 
@@ -56,6 +66,7 @@ const Messages = () => {
   
     messages.set({
       sender: uid,
+      receiver: isAdmin ? room : adminId,
       room,
       message,
       timestamp: Date.now()
@@ -68,15 +79,28 @@ const Messages = () => {
     firebase.auth().onAuthStateChanged(async function(user) {
       if(!user) return window.location.href = '/login';
 
-      const admin = await isAdmin(firebase);
+      const admin = await checkIsAdmin(firebase);
       const roomOwner = user.uid === room;
       if(!admin && !roomOwner) return window.location.href = '/login';
 
+      setIsAdmin(admin);
       getUser(user);
       setUser(user);
-      getMessages(room, setConversation);
+      getMessages(room, setConversation, setAdminId);
+
+      messaging.requestPermission()
+        .then(async function() {
+          const token = await messaging.getToken();
+          addUserToken({ uid: user.uid, token });
+        })
+        .catch(function (err) {
+          // TODO: Implment toaster
+          console.log("Unable to get permission to notify.", err);
+        });
+      // TODO: Implement toaster
+      // navigator.serviceWorker.addEventListener("message", (message) => console.log(message))
     });
-  }, []);
+  }, [isAdmin, room]);
 
   return (
     <div className="App">
@@ -104,7 +128,7 @@ const Messages = () => {
         </div>
       </section>
       <div className="form">
-        <form onSubmit={(e) => sendMessage(e, user.uid, room, message)}>
+        <form onSubmit={(e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)}>
           <input type="text" value={message} onChange={(e) => setMessage(e.target.value)}></input>
           <button type="submit">Send</button>
         </form>
