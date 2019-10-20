@@ -1,6 +1,6 @@
 import React, { useEffect, useState  } from 'react';
-import firebase from '../../firebase/Firebase';
-import { isAdmin } from '../../firebase/helpers';
+import firebase, { messaging } from '../../firebase/Firebase';
+import { checkIsAdmin } from '../../firebase/helpers';
 
 import './Messages.css';
 
@@ -13,6 +13,10 @@ const logout = async () => {
   } catch (error) {
     console.log('error logout', error);
   }
+};
+
+const addUserToken = async ({ uid, token }) => {
+  return database.ref('users/' + uid).update({ token });
 };
 
 const getContacts = async (setContacts) => {
@@ -30,15 +34,34 @@ const getContacts = async (setContacts) => {
   );
 };
 
-const Messages = () => {
+const addAdminToConversation = async (history, user, room) => {
+  await database.ref(`messages/${room}`).update({ admin: user.uid });
+  history.push(`/messages/${room}`);
+};
+
+const Messages = ({ history }) => {
   const [contacts, setContacts] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
       if(!user) return window.location.href = '/login';
 
-      const admin = await isAdmin(firebase);
+      const admin = await checkIsAdmin(firebase);
       if (!admin) return window.location.href = '/login';
+      setUser(user);
+
+      messaging.requestPermission()
+        .then(async function() {
+          const token = await messaging.getToken();
+          addUserToken({ uid: user.uid, token });
+        })
+        .catch(function (err) {
+          // TODO: Implment toaster
+          console.log("Unable to get permission to notify.", err);
+        });
+      // TODO: Implement toaster
+      // navigator.serviceWorker.addEventListener("message", (message) => console.log(message))
 
       return getContacts(setContacts);
     });
@@ -55,8 +78,8 @@ const Messages = () => {
             <div className="contacts">
               {
                 contacts && contacts.map(({ uid, email }, key) =>
-                  <div className="message">
-                    <a href={`/messages/${uid}`} className="message" key={key}>
+                  <div className="message" key={key}>
+                    <a href="#" onClick={() => addAdminToConversation(history, user, uid)} className="message">
                       {email}
                     </a>
                   </div>
