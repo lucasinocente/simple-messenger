@@ -1,0 +1,20 @@
+.container-messages {
+    background: white;
+    max-width: 800px;
+    height: 85vh;
+    overflow: auto;
+    margin: 0 auto;
+}
+
+.contact {
+    display: flex;
+    background: white;
+}
+
+.message.received {
+    text-align: left;
+}
+
+.message.send {
+    text-align: right;
+}

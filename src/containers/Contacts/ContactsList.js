@@ -2,7 +2,7 @@ import React, { useEffect, useState  } from 'react';
 import firebase from '../../firebase/Firebase';
 import { isAdmin } from '../../firebase/helpers';
 
-import './Messages.css';
+import './Contacts.css';
 
 const database = firebase.database();
 
