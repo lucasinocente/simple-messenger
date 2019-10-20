@@ -21,17 +21,20 @@ const addUserToken = async ({ uid, token }) => {
 
 const getContacts = async (setContacts) => {
   database.ref(`users/`)
-    .on('value', snapshot => {
-      const data = snapshot.val();
-      if( !data ) return;
-      
-      const contacts = Object.keys(data).map(function(message) {
-        return data[message];
-      });
+    .on("value", snapshot => {
+			const data = snapshot.val();
+			if (!data) return;
 
-      return setContacts(contacts);
-    }
-  );
+			const contacts = Object.keys(data)
+			.map(function(message) {
+				return data[message];
+			})
+			.filter(function(contact) {
+				return contact.email !== firebase.auth().currentUser.email;
+			});
+
+			return setContacts(contacts);
+    });
 };
 
 const addAdminToConversation = async (history, user, room) => {
@@ -45,7 +48,7 @@ const Messages = ({ history }) => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async function(user) {
-      if(!user) return window.location.href = '/login';
+      if (!user) return (window.location.href = "/login");
 
       const admin = await checkIsAdmin(firebase);
       if (!admin) return window.location.href = '/login';
@@ -71,26 +74,33 @@ const Messages = ({ history }) => {
     <div className="App">
       <section className="container-messages">
         <header>
-          <button type="button" onClick={logout}>Logout</button>
+          <button type="button" onClick={logout}>
+            Logout
+          </button>
         </header>
         <div className="container row">
           <div className="column column-messages">
             <div className="contacts">
-              {
-                contacts && contacts.map(({ uid, email }, key) =>
-                  <div className="message" key={key}>
-                    <a href="#" onClick={() => addAdminToConversation(history, user, uid)} className="message">
-                      {email}
-                    </a>
-                  </div>
-                )
-              }
+                { 
+                  contacts && 
+                    contacts.map(({ uid, email }, key) =>
+                      <div className="message" key={key}>
+                        <a 
+                          href="#"
+                          onClick={() => addAdminToConversation(history, user, uid)}
+                          className="message"
+                        >
+                          {email}
+                        </a>
+                      </div>
+                    )
+                }
             </div>
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
 
 export default Messages;
