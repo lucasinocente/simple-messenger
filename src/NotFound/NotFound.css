@@ -1,0 +1,12 @@
+.not_found {
+    text-align: center;
+    color: white;
+}
+
+.not_found__go_back {
+    color: white;
+}
+
+.not_found__go_back:hover {
+    color: black;
+}
