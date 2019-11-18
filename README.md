@@ -1,6 +1,6 @@
 # Simple Messenger
 
-Simple Messenger is a self-hosted tool for communicate to your friends :D
+Simple Messenger is a self-hosted tool for communication with your friends :D
 
 ---
 
@@ -15,7 +15,7 @@ npm install
 
 2. Create a Firebase Project (https://firebase.google.com)
 
-3. Create a Auth Method at `Authentication > Sign-in method > Email/Password`
+3. Create an Auth Method at `Authentication > Sign-in method > Email/Password`
 
 4. Enable first option and `e-mail link` too.
 
@@ -60,7 +60,7 @@ npm start
 
 ## Install Admin Application
 
-1. In the client application (http://localhost:3000) create a usar with your e-mail
+1. In the client application (http://localhost:3000) create a user with your e-mail
 
 2. Go to `admin` and install dependencies
 
@@ -97,7 +97,7 @@ And you all set to go, notifications will be sent if browser is in background an
 
 ## Contributing
 
-Help us a build this:
+Help us to build this:
 
 ![](https://lucas-inocente.storage.googleapis.com/1571195790101.photo4988079820080523380.jpg)
 ![](https://lucas-inocente.storage.googleapis.com/1571195790002.photo4988079820080523379.jpg)
