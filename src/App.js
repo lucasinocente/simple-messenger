@@ -6,7 +6,7 @@ import Messages from './containers/Messages/Messages';
 import ContactsList from './containers/Contacts/ContactsList';
 import Login from './containers/Login/Login';
 import Verify from './containers/Login/Verify';
-import NotFound from './NotFound/NotFound';
+import NotFound from './containers/NotFound/NotFound';
   
 function App() {
   return (
