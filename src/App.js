@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './App.css';
+import './App.scss';
 
 import Messages from './containers/Messages/Messages';
 import ContactsList from './containers/Contacts/ContactsList';

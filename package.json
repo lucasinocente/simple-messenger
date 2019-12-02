@@ -5,6 +5,7 @@
   "dependencies": {
     "bulma": "^0.8.0",
     "firebase": "^7.0.0",
+    "node-sass": "^4.13.0",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
     "react-router-dom": "^5.1.2",
