@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import Loader from '../../components/Loader/Loader';
+import Notification from '../../components/Notification/Notification';
 import firebase from '../../firebase/Firebase';
 
 import './LoginForm.scss';
 
 const LoginForm = () => {
   const [email, setEmail] = useState();
-  const [message, setMessage] = useState();
+  const [notification, setNotification] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
+  const emailPattern = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
 
   const sendAuthLinkToEmail = async (event, email) => {
     event.preventDefault();
@@ -16,14 +19,14 @@ const LoginForm = () => {
       handleCodeInApp: true
     };
     setIsLoading(true);
-    setMessage('');
+    setNotification('');
 
     try {
       await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
       window.localStorage.setItem('simpleMessengerEmail', email);
-      setMessage('E-mail enviado');
+      setNotification('E-mail enviado');
     } catch (err) {
-      setMessage('Erro');
+      setNotification('Erro');
       console.log(err);
     } finally {
       setIsLoading(false);
@@ -31,20 +34,33 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="container container-home">
-      <div className="login-container">
-        <form className="welcome" onSubmit={ev => sendAuthLinkToEmail(ev, email)}>
-          <label>Faça login com o seu e-mail abaixo:</label>
-          <input
-            type="email"
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="E-mail"
-          />
-          <button type="submit">{isLoading ? <Loader /> : 'Fazer login via e-mail'}</button>
-        </form>
-        <div className="error">{message}</div>
-      </div>
-    </div>
+    <>
+      <form className="login-form" onSubmit={ev => sendAuthLinkToEmail(ev, email)}>
+        <div className="field">
+          <label className="label">Faça login com o seu e-mail abaixo:</label>
+          <div className="control">
+            <input
+              type="email"
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="E-mail"
+              className="input"
+              pattern={emailPattern}
+              autoComplete="true"
+              autoFocus
+              required
+            />
+          </div>
+        </div>
+        <div className="field">
+          <div className="control">
+            <button type="submit" className="button is-info">
+              {isLoading ? <Loader /> : 'Fazer login via e-mail'}
+            </button>
+          </div>
+        </div>
+      </form>
+      { notification && ( <Notification message={notification} /> ) }
+    </>
   )
 };
 
