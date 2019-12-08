@@ -7,8 +7,6 @@ import MessagesList from '../../components/MessagesList/MessagesList';
 import firebase, { messaging } from '../../firebase/Firebase';
 import { checkIsAdmin } from '../../firebase/helpers';
 
-import './Messages.css';
-
 const database = firebase.database();
 
 const logout = async () => {
@@ -57,13 +55,13 @@ const getMessages = async (room, setConversation, setAdminId) => {
 
 const Messages = () => {
   const [message, setMessage] = useState();
-  const [conversation, setConversation] = useState([]);
+  const [conversation, setConversation] = useState();
   const [user, setUser] = useState({ email: 'carregando...'});
   const [isAdmin, setIsAdmin] = useState()
   const [adminId, setAdminId] = useState()
   const room = window.location.pathname.split('/')[2];
 
-  const sendMessage = async (event, uid, room, message, adminId, isAdmin) => {
+  const sendMessage = async (event, uid, room, message, adminId = null, isAdmin) => {
     event.preventDefault();
   
     const messages = 
@@ -126,12 +124,28 @@ const Messages = () => {
         </div>
       </Header>
       <Page>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+          <ul>
+            <li><a href="/messages">messages</a></li>
+            <li class="is-active"><a href="#" aria-current="page">usuario@email.com</a></li>
+          </ul>
+        </nav>
+      </Page>
+      <Page>
+        <div className="card">
+          <div className="card-content">
+            <div className="content">
+              <strong>usuario@email.com:</strong>
+            </div>
+          </div>
+        </div>
         <MessagesList conversation={conversation} user={user} />
-        <div className="form">
+      </Page>
+      <Page>
+        <div className="card">
           <form
-            onSubmit={
-              (e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)
-            }
+            className="card-content"
+            onSubmit={(e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)}
           >
             <input
               type="text"
