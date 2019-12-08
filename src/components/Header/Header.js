@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.scss';
 
-const Header = () => (
+const Header = ({ children }) => (
   <nav className="navbar is-info">
     <div className="container">
       <div className="navbar-brand">
@@ -9,6 +9,7 @@ const Header = () => (
           Simple Messenger
         </span>
       </div>
+      { children }
     </div>
   </nav>
 );

@@ -1,4 +1,9 @@
 import React, { useEffect, useState  } from 'react';
+
+import Header from '../../components/Header/Header';
+import Page from '../../components/Page/Page';
+import MessagesList from '../../components/MessagesList/MessagesList';
+
 import firebase, { messaging } from '../../firebase/Firebase';
 import { checkIsAdmin } from '../../firebase/helpers';
 
@@ -52,8 +57,8 @@ const getMessages = async (room, setConversation, setAdminId) => {
 
 const Messages = () => {
   const [message, setMessage] = useState();
-  const [conversation, setConversation] = useState();
-  const [user, setUser] = useState({});
+  const [conversation, setConversation] = useState([]);
+  const [user, setUser] = useState({ email: 'carregando...'});
   const [isAdmin, setIsAdmin] = useState()
   const [adminId, setAdminId] = useState()
   const room = window.location.pathname.split('/')[2];
@@ -103,37 +108,41 @@ const Messages = () => {
   }, [isAdmin, room]);
 
   return (
-    <div className="App">
-      <header>
-        Olá { user.email } <button type="button" onClick={logout}>Logout</button>
-      </header>
-      <section className="container-messages">
-        <div className="container row">
-          <div className="column column-messages">
-            <div className="messages">
-              {
-                conversation && conversation.map((item, key) =>
-                  <div 
-                    className={`message ${item.sender === user.uid ? 'send' : 'received'}`}
-                    key={key}
-                  >
-                    <span className="inner">
-                      {item.message}
-                    </span>
-                  </div>
-                )
-              }
-            </div>
+    <>
+      <Header>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            Olá, { user.email }!
+          </div>
+          <div class="navbar-item">
+            <button
+              type="button"
+              class="button is-primary"
+              onClick={logout}
+            >
+              Logout
+            </button>
           </div>
         </div>
-      </section>
-      <div className="form">
-        <form onSubmit={(e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)}>
-          <input type="text" value={message} onChange={(e) => setMessage(e.target.value)}></input>
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
+      </Header>
+      <Page>
+        <MessagesList conversation={conversation} user={user} />
+        <div className="form">
+          <form
+            onSubmit={
+              (e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)
+            }
+          >
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}>
+            </input>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </Page>
+    </>
   );
 }
 
