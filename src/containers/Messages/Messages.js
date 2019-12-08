@@ -37,6 +37,14 @@ const getUser = async ({ uid, email }) => {
     });
 };
 
+const getVisitor = async (uid) => {
+  return database.ref('/users/' + uid)
+    .once('value')
+    .then(function(snapshot) {
+      return snapshot.val();
+    });
+};
+
 const getMessages = async (room, setConversation, setAdminId) => {
   database.ref(`messages/${room}`)
     .on('value', snapshot => {
@@ -59,6 +67,7 @@ const Messages = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
   const [user, setUser] = useState({ email: 'carregando...'});
+  const [visitor, setVisitor] = useState({ email: 'carregando...'});
   const [isAdmin, setIsAdmin] = useState()
   const [adminId, setAdminId] = useState()
   const room = window.location.pathname.split('/')[2];
@@ -88,7 +97,10 @@ const Messages = () => {
       const roomOwner = user.uid === room;
       if(!admin && !roomOwner) return window.location.href = '/login';
 
+      const visitor = await getVisitor(room);
+
       setIsAdmin(admin);
+      setVisitor(visitor);
       getUser(user);
       setUser(user);
       getMessages(room, setConversation, setAdminId);
@@ -129,7 +141,7 @@ const Messages = () => {
         <nav class="breadcrumb" aria-label="breadcrumbs">
           <ul>
             <li><a href="/messages">messages</a></li>
-            <li class="is-active"><a href="#" aria-current="page">usuario@email.com</a></li>
+            <li class="is-active"><a href="#" aria-current="page">{ visitor.email }</a></li>
           </ul>
         </nav>
         <MessagesList conversation={conversation} user={user} />
