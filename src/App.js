@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import firebase from './firebase/Firebase';
-import "firebase/auth";
 
 import Messages from './containers/Messages/Messages';
 import ContactsList from './containers/Contacts/ContactsList';
@@ -13,17 +11,7 @@ import './App.css';
 import './App.scss';
   
 function App() {
-  useEffect(() => {
-    try {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) window.location.pathname = `messages/${user.uid}`;
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-  
-  return (
+    return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact={true} component={Login}/>
