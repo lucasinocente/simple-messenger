@@ -13,11 +13,13 @@ const MessagesList = ({ conversation, user }) => (
               }`}
               key={key}
             >
-              {item.message}
+              {item.message}              
             </div>
           </div>
         ) :
-        <p>Carregando mensagens...</p> 
+        <div className="card-content">
+          <p>Carregando mensagens...</p>
+        </div> 
       }
     </div>
   </div>

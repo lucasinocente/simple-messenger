@@ -130,18 +130,7 @@ const Messages = () => {
             <li class="is-active"><a href="#" aria-current="page">usuario@email.com</a></li>
           </ul>
         </nav>
-      </Page>
-      <Page>
-        <div className="card">
-          <div className="card-content">
-            <div className="content">
-              <strong>usuario@email.com:</strong>
-            </div>
-          </div>
-        </div>
         <MessagesList conversation={conversation} user={user} />
-      </Page>
-      <Page>
         <div className="card">
           <form
             className="card-content"
