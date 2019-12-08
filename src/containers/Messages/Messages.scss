@@ -1,0 +1,11 @@
+@import '../../../node_modules/bulma/sass/utilities/_all.sass';
+
+.messages-form {
+    position: relative;
+    
+    .button {
+        position: absolute;
+        top: $size-4;
+        right: $size-4;
+    }
+}

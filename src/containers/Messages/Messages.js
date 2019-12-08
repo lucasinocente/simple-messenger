@@ -7,6 +7,8 @@ import MessagesList from '../../components/MessagesList/MessagesList';
 import firebase, { messaging } from '../../firebase/Firebase';
 import { checkIsAdmin } from '../../firebase/helpers';
 
+import './Messages.scss'
+
 const database = firebase.database();
 
 const logout = async () => {
@@ -131,17 +133,27 @@ const Messages = () => {
           </ul>
         </nav>
         <MessagesList conversation={conversation} user={user} />
-        <div className="card">
+        <div className="card messages-form">
           <form
             className="card-content"
             onSubmit={(e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)}
           >
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}>
-            </input>
-            <button type="submit">Send</button>
+            <div className="field">
+              <div className="control">
+                <input
+                  type="text"
+                  className="input"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}>
+                </input>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="button is-info"
+            >
+              Enviar
+            </button>
           </form>
         </div>
       </Page>

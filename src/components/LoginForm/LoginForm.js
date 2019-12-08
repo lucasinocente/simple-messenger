@@ -53,7 +53,10 @@ const LoginForm = () => {
         </div>
         <div className="field">
           <div className="control">
-            <button type="submit" className="button is-info">
+            <button 
+              type="submit" 
+              className="button is-info"
+            >
               {isLoading ? <Loader /> : 'Fazer login via e-mail'}
             </button>
           </div>

@@ -4,11 +4,11 @@
 $error-color: $orange;
 $success-color: $green;
 
-.input:valid {
-    border-color: $success-color;
-    box-shadow: $input-focus-box-shadow-size rgba($success-color, 0.25);
-}
-
 .login-form {
     padding-top: $block-spacing;
+
+    .input:valid {
+        border-color: $success-color;
+        box-shadow: $input-focus-box-shadow-size rgba($success-color, 0.25);
+    }
 }
