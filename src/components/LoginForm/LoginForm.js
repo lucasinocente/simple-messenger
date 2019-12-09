@@ -37,7 +37,7 @@ const LoginForm = () => {
     <>
       <form className="login-form" onSubmit={ev => sendAuthLinkToEmail(ev, email)}>
         <div className="field">
-          <label className="label">Faça login com o seu e-mail abaixo:</label>
+          <label className="label">Para fazer login, preencha seu e-mail abaixo e entre no link que enviaremos para você:</label>
           <div className="control">
             <input
               type="email"

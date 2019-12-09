@@ -122,14 +122,14 @@ const Messages = () => {
   return (
     <>
       <Header>
-        <div class="navbar-end">
-          <div class="navbar-item">
+        <div className="navbar-end navbar-menu">
+          <div className="navbar-item">
             Olá, { user.email }!
           </div>
-          <div class="navbar-item">
+          <div className="navbar-item">
             <button
               type="button"
-              class="button is-primary"
+              className="button is-primary"
               onClick={logout}
             >
               Logout
@@ -138,12 +138,16 @@ const Messages = () => {
         </div>
       </Header>
       <Page>
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-          <ul>
-            <li><a href="/messages">messages</a></li>
-            <li class="is-active"><a href="#" aria-current="page">{ visitor.email }</a></li>
-          </ul>
-        </nav>
+        {
+          isAdmin && (
+            <nav className="breadcrumb" aria-label="breadcrumbs">
+              <ul>
+                <li><a href="/messages">messages</a></li>
+                <li className="is-active"><a href="#" aria-current="page">{ visitor.email }</a></li>
+              </ul>
+            </nav>
+          )
+        }
         <MessagesList conversation={conversation} user={user} />
         <div className="card messages-form">
           <form

@@ -1,3 +1,11 @@
+.messages-list {
+  height: 60vh;
+  overflow: auto;
+}
+
+.card-content {
+    border: 1px solid ghostwhite;
+}
 
 .messages-list .content.send {
     text-align: right;

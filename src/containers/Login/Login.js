@@ -7,7 +7,7 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 import firebase from '../../firebase/Firebase';
 import "firebase/auth";
 
-import './Login.css';
+import './Login.scss';
 
 const Login = () => {
 
@@ -26,9 +26,6 @@ const Login = () => {
      <h1 className="title">
         Faça login para falar com Lucas Inocente
       </h1>
-      <h2 className="subtitle">
-        Para fazer login, preencha seu e-mail abaixo e entre no link que enviaremos para você.
-      </h2>
     </>
   );
 
