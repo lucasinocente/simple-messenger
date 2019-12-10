@@ -7,7 +7,6 @@ import Login from './containers/Login/Login';
 import Verify from './containers/Login/Verify';
 import NotFound from './containers/NotFound/NotFound';
 
-import './App.css';
 import './App.scss';
   
 function App() {
