@@ -6,20 +6,25 @@ const MessagesList = ({ conversation, user }) => {
     const messages = document.getElementById("messages-list");
     messages.scrollTop = messages.scrollHeight;
   }, [conversation]);
-
+  console.log(conversation)
   return (
     <div className="messages-list" id="messages-list">
       <div className="card">
         {
-          conversation ? conversation.map((item, key) =>
-            <div className="card-content">
+          conversation ? conversation.map((message, key) =>
+            <div className="card-content" key={key}>
               <div
                 className={`content ${
-                  item.sender === user.uid ? 'send' : 'received'
+                  message.sender.uid === user.uid ? 'send' : 'received'
                 }`}
                 key={key}
               >
-                {item.message}
+                <div className="sender">
+                  <p>
+                    <strong>{message.sender ? message.sender.email : ''}</strong>
+                  </p>
+                </div>
+                <p>{message.text || message.message}</p>
               </div>
             </div>
           ) :

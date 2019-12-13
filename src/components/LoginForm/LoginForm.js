@@ -42,6 +42,7 @@ const LoginForm = () => {
             <input
               type="email"
               onChange={(event) => setEmail(event.target.value)}
+              value={email}
               placeholder="E-mail"
               className="input"
               pattern={emailPattern}

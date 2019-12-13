@@ -72,17 +72,19 @@ const Messages = () => {
   const [adminId, setAdminId] = useState()
   const room = window.location.pathname.split('/')[2];
 
-  const sendMessage = async (event, uid, room, message, adminId = null, isAdmin) => {
+  const sendMessage = async (event, sender, room, text, adminId = null, isAdmin) => {
     event.preventDefault();
   
     const messages = 
       database.ref().child(`messages/${room}`).push();
   
+    console.log(sender);
+
     messages.set({
-      sender: uid,
+      sender,
       receiver: isAdmin ? room : adminId,
       room,
-      message,
+      text,
       timestamp: Date.now()
     });
 
@@ -122,10 +124,22 @@ const Messages = () => {
   return (
     <>
       <Header>
-        <div className="navbar-end navbar-menu">
+        <div className="navbar-start navbar-menu">
           <div className="navbar-item">
-            Olá, { user.email }!
+          {
+            isAdmin ? (
+              <>
+                / { visitor.email }
+              </>
+            ) : (
+              <>
+                / { user.email }
+              </>
+            )
+          }
           </div>
+        </div>
+        <div className="navbar-end navbar-menu">
           <div className="navbar-item">
             <button
               type="button"
@@ -137,22 +151,17 @@ const Messages = () => {
           </div>
         </div>
       </Header>
-      <Page>
-        {
-          isAdmin && (
-            <nav className="breadcrumb" aria-label="breadcrumbs">
-              <ul>
-                <li><a href="/messages">messages</a></li>
-                <li className="is-active"><a href="#" aria-current="page">{ visitor.email }</a></li>
-              </ul>
-            </nav>
-          )
-        }
-        <MessagesList conversation={conversation} user={user} />
+      <Page extraClass="is-paddingless messages-body">
+        
+        <MessagesList
+          conversation={conversation}
+          user={user}
+          visitor={visitor}
+        />
         <div className="card messages-form">
           <form
             className="card-content"
-            onSubmit={(e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)}
+            onSubmit={(e) => sendMessage(e, { email: user.email, uid: user.uid }, room, message, adminId, isAdmin)}
           >
             <div className="field">
               <div className="control">

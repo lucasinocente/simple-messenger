@@ -1,8 +1,8 @@
 import React from 'react';
 import './Page.scss';
 
-const Page = ({ children }) => (
-  <section className="section">
+const Page = ({ extraClass, children }) => (
+  <section className={`section ${extraClass}`}>
     <div className="container">
       { children }
     </div>

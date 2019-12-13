@@ -1,5 +1,5 @@
 .messages-list {
-  height: 60vh;
+  height: calc(100vh - 56px - 102px);
   overflow: auto;
 }
 
@@ -9,4 +9,8 @@
 
 .messages-list .content.send {
     text-align: right;
+}
+
+.sender {
+  font-size: 0.75rem;
 }
