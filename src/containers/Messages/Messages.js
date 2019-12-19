@@ -124,22 +124,7 @@ const Messages = () => {
 
   return (
     <>
-      <Header>
-        <div className="navbar-start navbar-menu">
-          <div className="navbar-item">
-          {
-            isAdmin ? (
-              <>
-                / { visitor.email }
-              </>
-            ) : (
-              <>
-                / { user.email }
-              </>
-            )
-          }
-          </div>
-        </div>
+      <Header visitorEmail={visitor.email}>
         <div className="navbar-end navbar-menu">
           <div className="navbar-item">
             <button

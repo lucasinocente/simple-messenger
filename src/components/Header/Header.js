@@ -1,12 +1,18 @@
 import React from 'react';
 import './Header.scss';
 
-const Header = ({ children }) => (
+const Header = ({ children, visitorEmail }) => (
   <nav className="navbar is-info">
     <div className="container">
       <div className="navbar-brand">
         <span className="navbar-item navbar-item-single">
-          Simple Messenger
+          <strong>
+            {
+              visitorEmail ?
+              visitorEmail : 
+              'Simple Messenger'
+            }  
+          </strong>
         </span>
         <span 
           className="navbar-burger burger"
