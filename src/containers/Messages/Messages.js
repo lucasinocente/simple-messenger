@@ -7,7 +7,8 @@ import MessagesList from '../../components/MessagesList/MessagesList';
 import firebase, { messaging } from '../../firebase/Firebase';
 import { checkIsAdmin } from '../../firebase/helpers';
 
-import './Messages.scss'
+import { FaSignOutAlt } from 'react-icons/fa';
+import './Messages.scss';
 
 const database = firebase.database();
 
@@ -143,10 +144,10 @@ const Messages = () => {
           <div className="navbar-item">
             <button
               type="button"
-              className="button is-primary"
+              className="button is-primary logout-button"
               onClick={logout}
             >
-              Logout
+              <FaSignOutAlt />
             </button>
           </div>
         </div>
