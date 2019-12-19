@@ -137,7 +137,7 @@ const Messages = () => {
           </div>
         </div>
       </Header>
-      <Page extraClass="is-paddingless messages-body">
+      <Page extraClass="is-paddingless">
         
         <MessagesList
           conversation={conversation}

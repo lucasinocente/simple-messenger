@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import firebase, { messaging } from "../../firebase/Firebase";
 import { checkIsAdmin } from "../../firebase/helpers";
+import Header from '../../components/Header/Header';
+import Page from '../../components/Page/Page';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 import "./ContactsList.css";
 
@@ -71,15 +74,24 @@ const Messages = ({ history }) => {
   }, []);
 
   return (
-    <div className="App">
-      <section className="container-messages">
-        <header>
-          <button type="button" onClick={logout}>
-            Logout
-          </button>
-        </header>
+    <>
+      <Header>
+        <div className="navbar-end navbar-menu">
+          <div className="navbar-item">
+            <button
+              type="button"
+              className="button is-primary logout-button"
+              onClick={logout}
+            >
+              <FaSignOutAlt />
+            </button>
+          </div>
+        </div>
+      </Header>
+      <Page extraClass="is-paddingless">
         <div className="container row">
           <div className="column contacts_list__column">
+            <h2>Contatos:</h2>
             <div className="contacts">
               {contacts &&
                 contacts.map(({ uid, email }, key) => (
@@ -95,8 +107,8 @@ const Messages = ({ history }) => {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </Page>
+    </>
   );
 };
 

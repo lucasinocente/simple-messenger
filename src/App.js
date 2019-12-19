@@ -16,7 +16,7 @@ function App() {
         <Route path="/" exact={true} component={Login}/>
         <Route path="/login" exact={true} component={Login}/>
         <Route path="/verify" exact={true} component={Verify}/>
-        <Route path="/contacts" exact={true} component={ContactsList}/>
+        <Route path="/messages" exact={true} component={ContactsList}/>
         <Route path="/messages/:uid" exact={true} component={Messages}/>
         <Route path="**" component={NotFound} />
       </Switch>
