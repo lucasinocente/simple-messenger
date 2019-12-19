@@ -8,6 +8,10 @@
         top: $size-4;
         right: $size-4;
     }
+    
+    .field:not(:last-child) {
+        margin-bottom: 0px;
+    }
 }
 
 body {

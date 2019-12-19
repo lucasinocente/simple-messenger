@@ -24,7 +24,7 @@ const LoginForm = () => {
     try {
       await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
       window.localStorage.setItem('simpleMessengerEmail', email);
-      setNotification('E-mail enviado');
+      setNotification('E-mail enviado!');
     } catch (err) {
       setNotification('Erro');
       console.log(err);
@@ -58,12 +58,17 @@ const LoginForm = () => {
               type="submit" 
               className="button is-info"
             >
-              {isLoading ? <Loader /> : 'Fazer login via e-mail'}
+              {
+                isLoading 
+                ? <Loader /> 
+                : notification
+                  ? notification
+                  : 'Fazer login via e-mail'
+              }
             </button>
           </div>
         </div>
       </form>
-      { notification && ( <Notification message={notification} /> ) }
     </>
   )
 };
