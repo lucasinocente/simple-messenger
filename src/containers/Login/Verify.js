@@ -3,7 +3,7 @@ import firebase from '../../firebase/Firebase';
 import "firebase/auth";
 import { checkIsAdmin } from '../../firebase/helpers';
 
-import './Login.css';
+import './Login.scss';
 
 const Verify = () => {
   const [status, setStatus] = useState('Autenticando...');

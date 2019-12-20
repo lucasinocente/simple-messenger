@@ -1,0 +1,16 @@
+.messages-list {
+  height: calc(100vh - 52px - 90px);
+  overflow: auto;
+}
+
+.card-content {
+    border: 1px solid ghostwhite;
+}
+
+.messages-list .content.send {
+    text-align: right;
+}
+
+.sender {
+  font-size: 0.75rem;
+}

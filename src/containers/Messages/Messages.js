@@ -1,8 +1,14 @@
 import React, { useEffect, useState  } from 'react';
+
+import Header from '../../components/Header/Header';
+import Page from '../../components/Page/Page';
+import MessagesList from '../../components/MessagesList/MessagesList';
+
 import firebase, { messaging } from '../../firebase/Firebase';
 import { checkIsAdmin } from '../../firebase/helpers';
 
-import './Messages.css';
+import { FaSignOutAlt } from 'react-icons/fa';
+import './Messages.scss';
 
 const database = firebase.database();
 
@@ -32,6 +38,14 @@ const getUser = async ({ uid, email }) => {
     });
 };
 
+const getVisitor = async (uid) => {
+  return database.ref('/users/' + uid)
+    .once('value')
+    .then(function(snapshot) {
+      return snapshot.val();
+    });
+};
+
 const getMessages = async (room, setConversation, setAdminId) => {
   database.ref(`messages/${room}`)
     .on('value', snapshot => {
@@ -53,22 +67,25 @@ const getMessages = async (room, setConversation, setAdminId) => {
 const Messages = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ email: 'carregando...'});
+  const [visitor, setVisitor] = useState({ email: 'carregando...'});
   const [isAdmin, setIsAdmin] = useState()
   const [adminId, setAdminId] = useState()
   const room = window.location.pathname.split('/')[2];
 
-  const sendMessage = async (event, uid, room, message, adminId, isAdmin) => {
+  const sendMessage = async (event, sender, room, text, adminId = null, isAdmin) => {
     event.preventDefault();
   
     const messages = 
       database.ref().child(`messages/${room}`).push();
   
+    console.log(sender);
+
     messages.set({
-      sender: uid,
+      sender,
       receiver: isAdmin ? room : adminId,
       room,
-      message,
+      text,
       timestamp: Date.now()
     });
 
@@ -83,7 +100,10 @@ const Messages = () => {
       const roomOwner = user.uid === room;
       if(!admin && !roomOwner) return window.location.href = '/login';
 
+      const visitor = await getVisitor(room);
+
       setIsAdmin(admin);
+      setVisitor(visitor);
       getUser(user);
       setUser(user);
       getMessages(room, setConversation, setAdminId);
@@ -103,37 +123,52 @@ const Messages = () => {
   }, [isAdmin, room]);
 
   return (
-    <div className="App">
-      <header>
-        Olá { user.email } <button type="button" onClick={logout}>Logout</button>
-      </header>
-      <section className="container-messages">
-        <div className="container row">
-          <div className="column column-messages">
-            <div className="messages">
-              {
-                conversation && conversation.map((item, key) =>
-                  <div 
-                    className={`message ${item.sender === user.uid ? 'send' : 'received'}`}
-                    key={key}
-                  >
-                    <span className="inner">
-                      {item.message}
-                    </span>
-                  </div>
-                )
-              }
-            </div>
+    <>
+      <Header visitorEmail={visitor.email}>
+        <div className="navbar-end navbar-menu">
+          <div className="navbar-item">
+            <button
+              type="button"
+              className="button is-primary logout-button"
+              onClick={logout}
+            >
+              <FaSignOutAlt />
+            </button>
           </div>
         </div>
-      </section>
-      <div className="form">
-        <form onSubmit={(e) => sendMessage(e, user.uid, room, message, adminId, isAdmin)}>
-          <input type="text" value={message} onChange={(e) => setMessage(e.target.value)}></input>
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </div>
+      </Header>
+      <Page extraClass="is-paddingless">
+        
+        <MessagesList
+          conversation={conversation}
+          user={user}
+          visitor={visitor}
+        />
+        <div className="card messages-form">
+          <form
+            className="card-content"
+            onSubmit={(e) => sendMessage(e, { email: user.email, uid: user.uid }, room, message, adminId, isAdmin)}
+          >
+            <div className="field">
+              <div className="control">
+                <input
+                  type="text"
+                  className="input"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}>
+                </input>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="button is-info"
+            >
+              Enviar
+            </button>
+          </form>
+        </div>
+      </Page>
+    </>
   );
 }
 
