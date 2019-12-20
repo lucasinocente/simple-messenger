@@ -9,8 +9,14 @@ const Header = ({ children, visitorEmail }) => (
           <strong>
             {
               visitorEmail ?
-              visitorEmail : 
-              'Simple Messenger'
+                (
+                  <>
+                    <a href="/messages">SM / </a> 
+                    {visitorEmail}
+                  </>
+                )
+              : 
+                'Simple Messenger'
             }  
           </strong>
         </span>
