@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Login from './containers/Login/Login';
-import Verify from './containers/Login/Verify';
+import Verify from './containers/Verify/Verify';
 import Contacts from './containers/Contacts/Contacts';
 import ChatRoom from './containers/ChatRoom/ChatRoom';
 import NotFound from './containers/NotFound/NotFound';
