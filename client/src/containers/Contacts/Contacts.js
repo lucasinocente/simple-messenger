@@ -5,7 +5,7 @@ import Header from '../../components/Header/Header';
 import Page from '../../components/Page/Page';
 import { FaSignOutAlt } from 'react-icons/fa';
 
-import "./ContactsList.css";
+import "./Contacts.css";
 
 const database = firebase.database();
 

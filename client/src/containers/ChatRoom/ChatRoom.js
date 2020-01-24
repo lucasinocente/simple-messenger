@@ -8,7 +8,7 @@ import firebase, { messaging } from '../../firebase/Firebase';
 import { checkIsAdmin } from '../../firebase/helpers';
 
 import { FaSignOutAlt } from 'react-icons/fa';
-import './Messages.scss';
+import './ChatRoom.scss';
 
 const database = firebase.database();
 
@@ -64,7 +64,7 @@ const getMessages = async (room, setConversation, setAdminId) => {
   );
 };
 
-const Messages = () => {
+const ChatRoom = () => {
   const [message, setMessage] = useState();
   const [conversation, setConversation] = useState();
   const [user, setUser] = useState({ email: 'carregando...'});
@@ -172,4 +172,4 @@ const Messages = () => {
   );
 }
 
-export default Messages;
+export default ChatRoom;
