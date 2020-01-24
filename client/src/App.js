@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Login from './containers/Login/Login';
@@ -7,10 +7,18 @@ import Contacts from './containers/Contacts/Contacts';
 import ChatRoom from './containers/ChatRoom/ChatRoom';
 import NotFound from './containers/NotFound/NotFound';
 
+import StoreProvider, { Context } from './StoreProvider';
+
 import './App.scss';
 
-function App() {
-    return (
+const App = () => {
+  const context = useContext(Context);
+
+  useEffect(() => {
+    context.listenAuthStateChanges();
+  }, []);
+
+  return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact={true} component={Login}/>
@@ -24,4 +32,8 @@ function App() {
   );
 }
 
-export default App;
+export default () => (
+  <StoreProvider>
+    <App />
+  </StoreProvider>
+);

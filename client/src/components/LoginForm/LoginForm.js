@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Loader from '../Loader/Loader';
-import Notification from '../Notification/Notification';
 import firebase from '../../firebase/Firebase';
 
 import './LoginForm.scss';
