@@ -8,7 +8,7 @@
     ]
   },
   "hosting": {
-    "public": "build",
+    "public": "client/build",
     "ignore": [
       "firebase.json",
       "**/.*",
